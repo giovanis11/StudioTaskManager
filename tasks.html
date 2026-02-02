@@ -15,6 +15,153 @@
 </head>
 <body class="bg-white text-gray-900">
 
+      <header class="fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-md ">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex items-center justify-between h-20">
+            
+            <a href="/index.html" class="inline-flex items-center justify-center text-black">
+                STM
+            </a>
+            <!-- Navigation Links Desktop-->
+            <nav class="hidden lg:flex items-center gap-8 text-sm font-medium">
+                <a href="/index.html" class="text-gray-700 hover:text-black transition">Home</a>
+                <a href="/tasks.html" class="text-gray-700 hover:text-black transition">Tasks</a>
+                <a href="/about.html" class="text-gray-700 hover:text-black transition">About</a>
+                <a href="/analytics.html" class="text-gray-700 hover:text-black transition">Analytics</a>
+                <a href="/contact.html" class="text-gray-700 hover:text-black transition">Contact</a>
+            </nav>
+            <!--Right side Contact Button-->
+            <div class="hidden lg:block">
+                <a href="./contact.html" class="inline-flex items-center rounded-full border border-gray-300 px-5 py-4 text-sm font-medium hover:bg-black hover:text-white transition">
+                    Let's Connect
+                </a>
+            </div>
+
+            </div>
+
+        </div>
+    </header>
+
+    <main class="pt-32 px-6 ">
+      <div class="max-w-xl mx-auto">
+        <div class="mb-12">
+          <h1 class="text-3xl text-center tracking-tight font-semibold">
+            Studio Task Manager
+          </h1>
+          <p class="text-center mt-2 max-w-2xl">
+            Add Tasks, Track Progress and Collaborate Seamlessly
+          </p>
+        </div>
+
+        <section class="border border-gray-300 rounded-2xl p-8 bg-white shadow-sm">
+          <div class="flex items-start justify-between gap-6 flex-wrap">
+            <div>
+              <h2 class="text-xl font-medium">
+                Add a New Task
+              </h2>
+              <p class="text-gray-700 mt-1 text-sm">
+                Fill in the details below 
+              </p>
+             
+            </div>
+            <div class="text-xs text-gray-500 border border-gray-300 rounded-full py-1 px-3">
+              Public Studio Board
+            </div>
+          </div>
+          <!--Form Creation-->
+          <form id="taskForm" class="mt-8 grid grid-cols-1 gap-5">
+            <div>
+              <label for="taskTitle" class="block text-sm font-medium mb-2 text-gray-700">
+                Task Title
+              </label>
+              <input
+                type="text"
+                id="taskTitle"
+                name="taskTitle"
+                class="w-full border border-gray-300 px-4 py-3 text-sm outline-none focus:border-black focus:ring-2 focus:ring-black/10 rounded-lg transition"
+                placeholder="e.g. Design Homepage Mockup"
+                required
+              />
+            </div>
+            <div>
+              <label for="taskDescription" class="block text-sm font-medium mb-2 text-gray-700">
+                Description
+              </label>
+              <textarea
+                id="taskDescription"
+                name="taskDescription"
+                rows="4"
+                class="w-full border border-gray-300 px-4 py-3 text-sm outline-none focus:border-black focus:ring-2 focus:ring-black/10 rounded-lg transition"
+                placeholder="Enter task description"
+                required
+              ></textarea>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5"> </div>
+
+            <!--Status selection with Dropdown-->
+            <div> 
+              <label for="taskStatus" class="block text-sm font-medium mb-2 text-gray-700">
+                Task Status
+              </label>
+              <select
+                id="taskStatus"
+                name="taskStatus"
+                class="w-full border border-gray-300 px-4 py-3 text-sm bg-white outline-none focus:border-black focus:ring-2 focus:ring-black/10 rounded-lg transition"
+                required
+              >
+                <option value="">Select Status</option>
+                <option value="todo">To Do</option>
+                <option value="in-progress">In Progress</option>
+                <option value="completed">Completed</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="taskPriority" class="block text-sm">
+                Priority
+              </label>
+              <select id="classPriority" class="w-full border border-gray-300 px-4 py-3 text-sm bg-white outline-none focus:border-black focus:ring-2 focus:ring-black/10 rounded-lg transition">
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+              </select>
+            </div>
+
+            <div>
+              <button
+                type="submit"
+                class="inline-flex items-center justify-center rounded-full bg-black text-white px-6 py-3 text-sm font-medium hover:bg-gray-800 transition"
+              >
+                Add Task
+              </button>
+              <button
+              type="reset"
+              class="inline-flex items-center justify-center rounded-full bg-black text-white px-6 py-3 text-sm font-medium hover:bg-gray-800 transition">
+                Clear
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <section class="mt-14">
+          <div class="flex items-end justify-between gap-6 flex-wrap mb-6">
+            <div>
+              <h2 class="text-xl font-medium">Current Tasks</h2>
+              <p class="text-sm text-gray-500 mt-1">Tasks will appear here once added.</p>
+            </div>
+          </div>
+
+          <div id="taskList" class="space-y-4">
+
+        </section>
+
+      </div>
+
+    </main>
+
+
+
+
 
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
