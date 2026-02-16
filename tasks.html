@@ -6,13 +6,71 @@
   <meta name="description" content="Studio Task Manager – A task management application for a digital studio." />
 
   <title>Studio Task Manager</title>
-
-  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Custom CSS -->
   <link rel="stylesheet" href="assets/style.css" />
 </head>
+
+<!-- wditing -->
+<div id="editModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+  <div class="bg-white rounded-2xl p-8 w-full max-w-lg">
+
+    <h2 class="text-xl font-semibold mb-6">Edit Task</h2>
+
+    <form id="editTaskForm" class="space-y-4">
+
+      <input type="hidden" id="editTaskId">
+
+      <div>
+        <label class="block text-sm mb-1">Title</label>
+        <input id="editTitle" type="text" class="w-full border px-4 py-2 rounded-lg" required>
+      </div>
+
+      <div>
+        <label class="block text-sm mb-1">Description</label>
+        <textarea id="editDescription" rows="3"
+          class="w-full border px-4 py-2 rounded-lg" required></textarea>
+      </div>
+
+      <div>
+        <label class="block text-sm mb-1">Due Date</label>
+        <input id="editDueDate" type="date"
+          class="w-full border px-4 py-2 rounded-lg" required>
+      </div>
+
+      <div>
+        <label class="block text-sm mb-1">Status</label>
+        <select id="editStatus" class="w-full border px-4 py-2 rounded-lg">
+          <option value="todo">To Do</option>
+          <option value="in-progress">In Progress</option>
+          <option value="completed">Completed</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm mb-1">Priority</label>
+        <select id="editPriority" class="w-full border px-4 py-2 rounded-lg">
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+      </div>
+
+      <div class="flex justify-end gap-3 pt-4">
+        <button type="button" id="cancelEdit"
+          class="px-5 py-2 border rounded-full text-sm">
+          Cancel
+        </button>
+        <button type="submit"
+          class="px-5 py-2 bg-black text-white rounded-full text-sm">
+          Save Changes
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+
 <body class="bg-white text-gray-900">
 
       <header class="fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-md ">
@@ -128,6 +186,20 @@
             </div>
 
             <div>
+            <label for="taskDueDate" class="block text-sm font-medium mb-2 text-gray-700">
+              Due Date
+            </label>
+            <input
+              type="date"
+              id="taskDueDate"
+              name="taskDueDate"
+              class="w-full border border-gray-300 px-4 py-3 text-sm outline-none focus:border-black focus:ring-2 focus:ring-black/10 rounded-lg transition"
+              required
+            />
+          </div>
+
+
+            <div>
               <button
                 type="submit"
                 class="inline-flex items-center justify-center rounded-full bg-black text-white px-6 py-3 text-sm font-medium hover:bg-gray-800 transition"
@@ -142,6 +214,47 @@
             </div>
           </form>
         </section>
+
+                <!-- TASK FILTER -->
+        <div class="flex items-center gap-4 mb-6">
+          <label for="statusFilter" class="text-sm font-medium text-gray-700">
+            Filter by status:
+          </label>
+
+          <select
+            id="statusFilter"
+            class="border border-gray-300 px-4 py-2 rounded-lg text-sm"
+          >
+            <option value="all">All</option>
+            <option value="todo">To Do</option>
+            <option value="in-progress">In Progress</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
+
+                <!-- TASK SUMMARY -->
+        <section class="mt-10 mb-10">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+
+            <div class="border border-gray-200 rounded-xl p-5 text-center">
+              <p class="text-sm text-gray-500">Total Tasks</p>
+              <p id="totalTasks" class="text-2xl font-semibold">0</p>
+            </div>
+
+            <div class="border border-gray-200 rounded-xl p-5 text-center">
+              <p class="text-sm text-gray-500">Pending Tasks</p>
+              <p id="pendingTasks" class="text-2xl font-semibold">0</p>
+            </div>
+
+            <div class="border border-gray-200 rounded-xl p-5 text-center">
+              <p class="text-sm text-gray-500">Completed Tasks</p>
+              <p id="completedTasks" class="text-2xl font-semibold">0</p>
+            </div>
+
+          </div>
+        </section>
+
+
 
         <section class="mt-14">
           <div class="flex items-end justify-between gap-6 flex-wrap mb-6">
@@ -168,5 +281,7 @@
 
   <!-- Main JS -->
   <script src="assets/js/main.js"></script>
+  <script src="assets/js/tasks.js"></script>
+
 </body>
 </html>
