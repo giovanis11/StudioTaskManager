@@ -1,0 +1,8 @@
+/* CSS for buttons of carousel */
+.carousel-control-next,
+.carousel-control-prev {
+    filter: invert(1);
+}
+.carousel-indicators [data-bs-target="#carouselExampleIndicators"] {
+    background-color: #000;
+}

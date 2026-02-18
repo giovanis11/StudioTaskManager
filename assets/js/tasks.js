@@ -21,52 +21,47 @@ function generateId() {
 /* ---------------- UI Helpers ---------------- */
 function badgeClasses(status) {
   if (status === "completed")
-    return "bg-green-50 text-green-700 border border-green-200";
+    return "badge rounded-pill border fw-medium px-3 py-2 text-success border-success bg-success-subtle";
   if (status === "in-progress")
-    return "bg-blue-50 text-blue-700 border border-blue-200";
-  return "bg-yellow-50 text-yellow-700 border border-yellow-200";
+    return "badge rounded-pill border fw-medium px-3 py-2 text-primary border-primary bg-primary-subtle";
+  return "badge rounded-pill border fw-medium px-3 py-2 text-warning border-warning bg-warning-subtle";
 }
 
-function priorityDot(priority) {
-  if (priority === "high") return "bg-red-500";
-  if (priority === "medium") return "bg-amber-500";
-  return "bg-gray-400";
+function priorityDotClass(priority) {
+  if (priority === "high")   return "bg-danger";
+  if (priority === "medium") return "bg-warning";
+  return "bg-secondary";
 }
 
 /* ---------------- Modal Helpers ---------------- */
 function openEditModal(task) {
-  editTaskId.value = task.id;
-  editTitle.value = task.title;
+  editTaskId.value      = task.id;
+  editTitle.value       = task.title;
   editDescription.value = task.description;
-  editDueDate.value = task.dueDate;
-  editStatus.value = task.status;
-  editPriority.value = task.priority;
-
-  editModal.classList.remove("hidden");
-  editModal.classList.add("flex");
+  editDueDate.value     = task.dueDate;
+  editStatus.value      = task.status;
+  editPriority.value    = task.priority;
+  editModal.classList.add("open");
 }
 
 function closeEditModal() {
-  editModal.classList.add("hidden");
-  editModal.classList.remove("flex");
+  editModal.classList.remove("open");
 }
 
 function updateTaskSummary() {
-  const totalEl = document.getElementById("totalTasks");
-  const pendingEl = document.getElementById("pendingTasks");
-  const completedEl = document.getElementById("completedTasks");
-
+  const totalEl     = document.querySelector("#totalTasks");
+  const pendingEl   = document.querySelector("#pendingTasks");
+  const completedEl = document.querySelector("#completedTasks");
   if (!totalEl || !pendingEl || !completedEl) return;
 
-  const total = tasks.length;
+  const total     = tasks.length;
   const completed = tasks.filter(t => t.status === "completed").length;
-  const pending = total - completed;
+  const pending   = total - completed;
 
-  totalEl.textContent = total;
-  pendingEl.textContent = pending;
+  totalEl.textContent     = total;
+  pendingEl.textContent   = pending;
   completedEl.textContent = completed;
 }
-
 
 /* ---------------- Render ---------------- */
 function renderTasks() {
@@ -74,120 +69,106 @@ function renderTasks() {
   taskList.replaceChildren();
 
   let visibleTasks = tasks;
-
   if (currentFilter !== "all") {
     visibleTasks = tasks.filter(task => task.status === currentFilter);
   }
 
   if (visibleTasks.length === 0) {
     const empty = document.createElement("div");
-    empty.className =
-      "border border-gray-200 rounded-2xl p-6 text-sm text-gray-600 bg-white";
-
+    empty.className = "border border-secondary-subtle rounded-4 p-4 small text-secondary bg-white text-center";
     const filterLabels = {
       all: "tasks",
       todo: "to-do tasks",
       "in-progress": "in-progress tasks",
       completed: "completed tasks"
     };
-
     empty.textContent = `No ${filterLabels[currentFilter]} found.`;
     taskList.appendChild(empty);
     return;
   }
 
-  // ✅ IMPORTANT: render ONLY visibleTasks
   visibleTasks.forEach(task => {
     const card = document.createElement("article");
-    card.className = "border border-gray-200 rounded-2xl p-6 bg-white shadow-sm";
+    card.className = "border border-secondary-subtle rounded-4 p-3 p-md-4 bg-white shadow-sm mb-3";
 
-    const header = document.createElement("div");
-    header.className = "flex justify-between gap-4 flex-wrap";
-
-    const left = document.createElement("div");
+    // Top row: title + badge stacked on mobile, side by side on sm+
+    const topRow = document.createElement("div");
+    topRow.className = "d-flex flex-column flex-sm-row justify-content-between align-items-start gap-2 mb-2";
 
     const title = document.createElement("h3");
-    title.className = "text-lg font-semibold";
+    title.className = "fs-6 fw-semibold mb-0";
     title.textContent = task.title;
 
+    const badge = document.createElement("span");
+    badge.className = badgeClasses(task.status);
+    badge.style.whiteSpace = "nowrap";
+    badge.textContent = task.status.replace("-", " ").toUpperCase();
+
+    topRow.append(title, badge);
+
+    // Meta row: priority dot + due date
     const meta = document.createElement("div");
-    meta.className = "flex items-center gap-3 mt-2 text-sm text-gray-600";
+    meta.className = "d-flex align-items-center gap-2 small text-secondary mb-2 flex-wrap";
 
     const dot = document.createElement("span");
-    dot.className = `w-2.5 h-2.5 rounded-full ${priorityDot(task.priority)}`;
+    dot.className = `rounded-circle ${priorityDotClass(task.priority)}`;
+    dot.style.cssText = "width:10px; height:10px; display:inline-block; flex-shrink:0;";
 
     meta.append(
       dot,
-      document.createTextNode(` Priority: ${task.priority}`),
-      document.createTextNode(` • Due: ${task.dueDate}`)
+      document.createTextNode(`Priority: ${task.priority}  •  Due: ${task.dueDate}`)
     );
 
-    left.append(title, meta);
+    // Description
+    const desc = document.createElement("p");
+    desc.className = "small text-secondary mb-3";
+    desc.textContent = task.description;
 
-    const right = document.createElement("div");
-    right.className = "flex items-center gap-3";
-
-    const badge = document.createElement("span");
-    badge.className =
-      `inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ${badgeClasses(task.status)}`;
-    badge.textContent = task.status.replace("-", " ").toUpperCase();
+    // Buttons — full width on mobile, auto on sm+
+    const btnRow = document.createElement("div");
+    btnRow.className = "d-flex flex-column flex-sm-row gap-2";
 
     const editBtn = document.createElement("button");
     editBtn.textContent = "Edit";
-    editBtn.className =
-      "rounded-full border border-gray-300 px-4 py-2 text-sm hover:bg-gray-50";
+    editBtn.className = "btn btn-outline-secondary btn-sm rounded-pill px-4";
     editBtn.onclick = () => openEditModal(task);
 
     const delBtn = document.createElement("button");
     delBtn.textContent = "Delete";
-    delBtn.className =
-      "rounded-full border border-gray-300 px-4 py-2 text-sm hover:bg-gray-50";
+    delBtn.className = "btn btn-outline-danger btn-sm rounded-pill px-4";
     delBtn.onclick = () => {
       tasks = tasks.filter(t => t.id !== task.id);
       saveTasks();
       renderTasks();
     };
 
-    right.append(badge, editBtn, delBtn);
-
-    const desc = document.createElement("p");
-    desc.className = "text-sm text-gray-600 mt-4";
-    desc.textContent = task.description;
-
-    header.append(left, right);
-    card.append(header, desc);
+    btnRow.append(editBtn, delBtn);
+    card.append(topRow, meta, desc, btnRow);
     taskList.appendChild(card);
   });
 }
 
-
-/* ---------------- Init ---------------- */
 document.addEventListener("DOMContentLoaded", () => {
-  // FORM
-  const taskForm = document.getElementById("taskForm");
-  const taskTitle = document.getElementById("taskTitle");
-  const taskDescription = document.getElementById("taskDescription");
-  const taskDueDate = document.getElementById("taskDueDate");
-  const taskStatus = document.getElementById("taskStatus");
-  const taskPriority =
-    document.getElementById("taskPriority") ||
-    document.getElementById("classPriority");
+  const taskForm        = document.querySelector("#taskForm");
+  const taskTitle       = document.querySelector("#taskTitle");
+  const taskDescription = document.querySelector("#taskDescription");
+  const taskDueDate     = document.querySelector("#taskDueDate");
+  const taskStatus      = document.querySelector("#taskStatus");
+  const taskPriority    =
+    document.querySelector("#taskPriority") ||
+    document.querySelector("#classPriority");
 
-  // LIST
-  window.taskList = document.getElementById("taskList");
+  window.taskList        = document.querySelector("#taskList");
+  window.editModal       = document.querySelector("#editModal");
+  window.editTaskForm    = document.querySelector("#editTaskForm");
+  window.editTaskId      = document.querySelector("#editTaskId");
+  window.editTitle       = document.querySelector("#editTitle");
+  window.editDescription = document.querySelector("#editDescription");
+  window.editDueDate     = document.querySelector("#editDueDate");
+  window.editStatus      = document.querySelector("#editStatus");
+  window.editPriority    = document.querySelector("#editPriority");
+  window.cancelEdit      = document.querySelector("#cancelEdit");
 
-  // EDIT MODAL ELEMENTS
-  window.editModal = document.getElementById("editModal");
-  window.editTaskForm = document.getElementById("editTaskForm");
-  window.editTaskId = document.getElementById("editTaskId");
-  window.editTitle = document.getElementById("editTitle");
-  window.editDescription = document.getElementById("editDescription");
-  window.editDueDate = document.getElementById("editDueDate");
-  window.editStatus = document.getElementById("editStatus");
-  window.editPriority = document.getElementById("editPriority");
-  window.cancelEdit = document.getElementById("cancelEdit");
-
-  // SAFETY CHECK
   if (!taskForm) return;
 
   tasks = loadTasks();
@@ -195,16 +176,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   taskForm.addEventListener("submit", e => {
     e.preventDefault();
-
     tasks.push({
-      id: generateId(),
-      title: taskTitle.value.trim(),
+      id:          generateId(),
+      title:       taskTitle.value.trim(),
       description: taskDescription.value.trim(),
-      dueDate: taskDueDate.value,
-      status: taskStatus.value,
-      priority: taskPriority.value
+      dueDate:     taskDueDate.value,
+      status:      taskStatus.value,
+      priority:    taskPriority.value
     });
-
     saveTasks();
     renderTasks();
     taskForm.reset();
@@ -212,16 +191,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   editTaskForm.addEventListener("submit", e => {
     e.preventDefault();
-
     const task = tasks.find(t => t.id === editTaskId.value);
     if (!task) return;
-
-    task.title = editTitle.value.trim();
+    task.title       = editTitle.value.trim();
     task.description = editDescription.value.trim();
-    task.dueDate = editDueDate.value;
-    task.status = editStatus.value;
-    task.priority = editPriority.value;
-
+    task.dueDate     = editDueDate.value;
+    task.status      = editStatus.value;
+    task.priority    = editPriority.value;
     saveTasks();
     renderTasks();
     closeEditModal();
@@ -229,13 +205,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   cancelEdit.addEventListener("click", closeEditModal);
 
-  const statusFilter = document.getElementById("statusFilter");
-
-if (statusFilter) {
-  statusFilter.addEventListener("change", e => {
-    currentFilter = e.target.value;
-    renderTasks();
-  });
-}
-
+  const statusFilter = document.querySelector("#statusFilter");
+  if (statusFilter) {
+    statusFilter.addEventListener("change", e => {
+      currentFilter = e.target.value;
+      renderTasks();
+    });
+  }
 });
