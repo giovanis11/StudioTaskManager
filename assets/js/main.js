@@ -112,3 +112,41 @@ $(document).ready(function () {
 
     fetchWeather();
 });
+
+
+/* contact script for  */
+$(function () {
+
+  $('.needs-validation').on('submit', function (event) {
+
+    if (!this.checkValidity()) {
+      event.preventDefault();
+      event.stopPropagation();
+      $(this).addClass('was-validated');
+      return;
+    }
+
+    event.preventDefault();
+
+    // Get values
+    const name = $('#fullName').val();
+    const email = $('#email').val();
+    const message = $('#message').val();
+
+    // Inject into modal
+    $('#modalName').text(name);
+    $('#modalEmail').text(email);
+    $('#modalMessage').text(message);
+
+    // Show modal
+    const modal = new bootstrap.Modal(document.getElementById('successModal'));
+    modal.show();
+
+    // Reset form
+    this.reset();
+    $(this).removeClass('was-validated');
+
+  });
+
+});
+

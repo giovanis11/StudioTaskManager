@@ -1,25 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Studio Task Manager – A task management application for a digital studio." />
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Studio Task Manager</title>
 
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="assets/style.css" />
-</head>
-<body class="bg-white text-gray-900">
-
-
-  <!-- jQuery -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
-  <!-- Main JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="assets/js/main.js"></script>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+</head>
+
+<body>
+
+  <!-- Header -->
+  <div id="header-placeholder"></div>
+
+  <main>
+
+    <section class="py-5 text-center">
+      <div>
+        <h1 class="display-3 fw-bold py-3">Contact Us</h1>
+        <p class="lead text-secondary mb-1">Get in touch with our team</p>
+      </div>
+    </section>
+
+
+    <section class="py-5">
+      <div class="container">
+
+        <div class="row g-5 align-items-start">
+
+          <!-- left -->
+          <div class="col-12 col-lg-5">
+
+            <h2 class="fw-bold mb-4">Contact Information</h2>
+
+            <p class="text-secondary mb-4">
+              We'd love to hear from you. Reach out using the information below
+              or fill out the form and we’ll get back to you.
+            </p>
+
+            <div class="mb-4">
+              <h6 class="fw-semibold mb-1">Email</h6>
+              <p class="text-muted mb-0">nikolaos.giovanis@acg.edu</p>
+            </div>
+
+            <div class="mb-4">
+              <h6 class="fw-semibold mb-1">Phone</h6>
+              <p class="text-muted mb-0">+30 6988702405</p>
+            </div>
+
+            <div class="mb-4">
+              <h6 class="fw-semibold mb-1">Address</h6>
+              <p class="text-muted mb-0">Athens, Greece</p>
+            </div>
+
+            <div>
+              <h6>Follow Us</h6>
+              <div class="d-flex gap-3">
+                <a href="https://www.linkedin.com/in/nikos-giovanis-141916253?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank" class="text-dark fs-4">
+                  <i class="bi bi-linkedin"></i>
+                </a>
+                <a href="https://www.instagram.com/nikos.giovaniss?igsh=anVjdm0ya2JqM2lt&utm_source=qr" target="_blank" class="text-dark fs-4">
+                  <i class="bi bi-instagram"></i>
+                </a>
+                <a href="https://www.facebook.com/share/17195Lppzi/?mibextid=wwXIfr" target="_blank" class="text-dark fs-4">
+                  <i class="bi bi-facebook"></i>
+                </a>
+                <a href="https://youtube.com/@nikosgiovanis773?si=uCCsxAHHxjTi5kMv" target="_blank" class="text-dark fs-4">
+                  <i class="bi bi-youtube"></i>
+                </a>
+                <a href="https://github.com/giovanis11" target="_blank" class="text-dark fs-4">
+                  <i class="bi bi-github"></i>
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+
+          <!-- right -->
+          <div class="col-12 col-lg-7">
+
+            <div class="card border-0 shadow rounded-4 p-4 p-md-5">
+
+              <h4 class="fw-semibold mb-4">Send us a message</h4>
+
+              <!-- forma -->
+              <form class="needs-validation" novalidate>
+
+                <div class="mb-3">
+                  <label class="form-label">Full Name</label>
+                  <input type="text" id="fullName" class="form-control" placeholder="Your Name" required>
+                  <div class="invalid-feedback">Please enter your name.</div>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Email Address</label>
+                  <input type="email" id="email" class="form-control" placeholder="you@example.com" required>
+                  <div class="invalid-feedback">Please enter a valid email address.</div>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Message</label>
+                  <textarea id="message" class="form-control" rows="5" placeholder="Your message here..." required></textarea>
+                  <div class="invalid-feedback">Please enter your message.</div>
+                </div>
+
+                <div>
+                  <button type="submit" class="btn btn-dark px-4 py-2 rounded-pill">
+                    Submit
+                  </button>
+                </div>
+
+              </form>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- Great Success  -->
+    <div class="modal fade" id="successModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4">
+
+          <div class="modal-header border-0">
+            <h5 class="modal-title fw-semibold">Submission Successful</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+
+          <div class="modal-body">
+            <p><strong>Name:</strong> <span id="modalName"></span></p>
+            <p><strong>Email:</strong> <span id="modalEmail"></span></p>
+            <p><strong>Message:</strong></p>
+            <p class="text-muted" id="modalMessage"></p>
+          </div>
+
+          <div class="modal-footer border-0">
+            <button type="button" class="btn btn-dark rounded-pill px-4" data-bs-dismiss="modal">
+              Close
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+    <!-- map -->
+    <section class="py-5">
+      <div class="container text-center">
+        <div>
+          <h2>Our Location</h2>
+          <p>We are here for you 24/7</p>
+        </div>
+
+        <div class="ratio ratio-16x9 border rounded-4 py-5">
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3143.7938630997874!2d23.83052597603095!3d38.00526837192823!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14a199709f059559%3A0xad1dacf4713268b2!2sThe%20American%20College%20of%20Greece!5e0!3m2!1sel!2sgr!4v1771447566957!5m2!1sel!2sgr"
+            class="rounded rounded-4"
+            style="border:0;"
+            allowfullscreen
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+
+      </div>
+    </section>
+    <section class="py-5"></section>
+
+
+  </main>
+
 </body>
 </html>
