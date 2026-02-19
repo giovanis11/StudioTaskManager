@@ -1,3 +1,5 @@
+console.log("JS WORKING");
+
 $(function () {
 
   const header = `
@@ -54,77 +56,71 @@ $(function () {
 
 });
 
-const footer = `
-  <!-- FOOTER -->
+$(function () {
+
+  const footer = `
   <footer class="bg-black text-white py-5 mt-5">
 
-  <div class="container-fluid px-5">
+    <div class="container-fluid px-5">
 
-    <!-- BIG CTA -->
-    <div class=" mb-4">
-      <h2 class="fw-bold display-1">
-        LET’S BUILD SOMETHING <br>
-        GREAT. TOGETHER.
-      </h2>
+      <div class="mb-4">
+        <h2 class="fw-bold display-1">
+          LET’S BUILD SOMETHING <br>
+          GREAT. TOGETHER.
+        </h2>
+      </div>
+
+      <div class="d-flex flex-wrap gap-3 mb-4">
+
+        <a href="mailto:your@email.com" class="btn btn-outline-light px-4">
+          Get in touch
+        </a>
+
+        <a href="/tasks.html" class="btn btn-outline-light px-4">
+          View Tasks
+        </a>
+
+        <a href="/about.html" class="btn btn-outline-light px-4">
+          About Us
+        </a>
+
+        <a href="https://github.com/giovanis11"
+          target="_blank"
+          class="btn btn-outline-light rounded-circle d-flex align-items-center justify-content-center"
+          style="width:45px;height:45px;">
+          <i class="bi bi-github"></i>
+        </a>
+
+        <a href="https://www.linkedin.com/in/nikos-giovanis-141916253"
+          target="_blank"
+          class="btn btn-outline-light rounded-circle d-flex align-items-center justify-content-center"
+          style="width:45px;height:45px;">
+          <i class="bi bi-linkedin"></i>
+        </a>
+
+        <a href="https://www.instagram.com/nikos.giovaniss"
+          target="_blank"
+          class="btn btn-outline-light rounded-circle d-flex align-items-center justify-content-center"
+          style="width:45px;height:45px;">
+          <i class="bi bi-instagram"></i>
+        </a>
+
+      </div>
+
+      <div class="d-flex flex-column flex-md-row justify-content-between border-top pt-3 small">
+        <span>© 2026 Nikolaos Giovanis-ITC4214</span>
+        <span>Built with <b>Love</b></span>
+      </div>
+
     </div>
 
-    <!-- BUTTONS -->
-    <div class="d-flex flex-wrap gap-3 mb-4">
+  </footer>
+  `;
 
-      <!-- Contact -->
-      <a href="mailto:your@email.com"
-         class="btn btn-outline-light px-4 bg-black">
-        Get in touch
-      </a>
+  $("#footer-placeholder").html(footer);
 
-      <!-- Tasks -->
-      <a href="/tasks.html"
-         class="btn btn-outline-light px-4">
-        View Tasks
-      </a>
+});
 
-      <!-- About Us -->
-      <a href="/about.html"
-         class="btn btn-outline-light px-4">
-        About Us
-      </a>
-
-      <!-- GitHub -->
-      <a href="https://github.com/giovanis11"
-         target="_blank"
-         class="btn btn-outline-light rounded-circle">
-        <i class="bi bi-github"></i>
-      </a>
-
-      <!-- LinkedIn -->
-      <a href="https://www.linkedin.com/in/nikos-giovanis-141916253?utm_source=share_via&utm_content=profile&utm_medium=member_ios"
-         target="_blank"
-         class="btn btn-outline-light rounded-circle">
-        <i class="bi bi-linkedin"></i>
-      </a>
-
-      <!-- Instagram -->
-      <a href="https://www.instagram.com/nikos.giovaniss?igsh=anVjdm0ya2JqM2lt&utm_source=qr"
-         target="_blank"
-         class="btn btn-outline-light rounded-circle">
-        <i class="bi bi-instagram"></i>
-      </a>
-
-    </div>
-
-    <!-- Bottom thingys -->
-    <div class="d-flex flex-column flex-md-row justify-content-between text-center text-md-start border-top pt-3 small">
-      <span>© 2026 Nikolaos Giovanis-ITC4214 </span>
-      <span>Built with <b>Love</b></span>
-    </div>
-
-  </div>
-
-</footer>
-
-`;
-
-$("#footer-placeholder").html(footer);
 
 
 $(document).ready(function () {
