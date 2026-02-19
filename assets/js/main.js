@@ -81,14 +81,14 @@ $(document).ready(function () {
 
                     $("#weatherContent").html(`
                         <div class="mb-3">
-                            <h3 class="display-5 fw-bold">${temp}°C</h3>
-                            <p class="text-muted mb-1">Athens, Greece</p>
-                            <small class="text-muted">Updated: ${time}</small>
+                            <h3 class="display-5 fw-bold text-white">${temp}°C</h3>
+                            <p class="text-white-50 mb-1">Athens, Greece</p>
+                            <small class="text-white-50">Updated: ${time}</small>
                         </div>
 
                         <div class="d-flex justify-content-center gap-5 mt-4">
                             <div>
-                                <p class="text-muted small mb-1">Wind</p>
+                                <p class="text-white-50 small mb-1">Wind</p>
                                 <h6 class="fw-semibold">${wind} km/h</h6>
                             </div>
                         </div>
