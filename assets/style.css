@@ -22,3 +22,13 @@
   overflow-y: auto;
   padding-right: 6px;
 }
+
+/* bombo mode */
+.stm-nav-bg {
+  background: rgba(255,255,255,0.85);
+}
+
+/* Navbar background for dark mode */
+[data-bs-theme="dark"] .stm-nav-bg {
+  background: rgba(20,20,20,0.85);
+}

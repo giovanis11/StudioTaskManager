@@ -11,35 +11,50 @@
   <link rel="stylesheet" href="assets/style.css" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="assets/js/main.js"></script>
 
-
   <style>
-    /* Only 3 things Bootstrap can't do natively */
-    .stm-navbar { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-    .hero-title  { font-size: clamp(3rem, 6vw, 5rem); line-height: 1.1; }
-    .nav-link-stm:hover { color: #000 !important; }
+    /* Minimal custom styling */
+    .stm-navbar { 
+      backdrop-filter: blur(12px); 
+      -webkit-backdrop-filter: blur(12px); 
+    }
+
+    .hero-title  { 
+      font-size: clamp(3rem, 6vw, 5rem); 
+      line-height: 1.1; 
+    }
+
+    /* Theme-aware hover */
+    .nav-link-stm:hover { 
+      color: var(--bs-body-color) !important; 
+    }
   </style>
 </head>
-<body class="bg-white text-dark">
 
-  <!-- Header from main.js -->
+<body>
+
+  <!-- Header injected from main.js -->
   <div id="header-placeholder"></div>
 
-
-  <!-- hero section -->
+  <!-- Hero Section -->
   <section class="min-vh-100 d-flex align-items-center justify-content-center px-3">
     <div class="text-center">
 
-      <p class="text-uppercase text-secondary small fw-normal mb-4"
-         style="letter-spacing:.15em;">Design In Details</p>
+      <p class="text-uppercase text-body-secondary small fw-normal mb-4"
+         style="letter-spacing:.15em;">
+         Design In Details
+      </p>
 
       <h1 class="mb-4">
         <div class="hero-title">
           <span class="fw-bolder">Crafted </span>
-          <span class="fw-normal fst-italic" style="font-family:Georgia,serif;">Websites</span>
+          <span class="fw-normal fst-italic" style="font-family:Georgia,serif;">
+            Websites
+          </span>
         </div>
         <div class="hero-title">
           <span class="fw-light">Lasting </span>
@@ -47,13 +62,18 @@
         </div>
       </h1>
 
-      <p class="text-secondary fs-5 mb-5">Premium Digital Solutions for Your Business Needs</p>
+      <p class="text-body-secondary fs-5 mb-5">
+        Premium Digital Solutions for Your Business Needs
+      </p>
 
       <div class="d-flex justify-content-center gap-3">
-        <a href="contact.html" class="btn btn-dark rounded-pill px-4 py-2 small fw-medium">
+        <a href="contact.html" 
+           class="btn btn-primary rounded-pill px-4 py-2 small fw-medium">
           Get in touch
         </a>
-        <a href="tasks.html" class="btn btn-outline-secondary rounded-pill px-4 py-2 small fw-medium">
+
+        <a href="tasks.html" 
+           class="btn btn-outline-secondary rounded-pill px-4 py-2 small fw-medium">
           See our Tasks
         </a>
       </div>
@@ -61,40 +81,37 @@
     </div>
   </section>
 
-<!--API integrtion-->
-<section class="py-5 text-white "id="weatherSection">
-  <div class="container border rounded-4 p-5 bg-primary bg-gradient">
+  <!-- Weather Section -->
+  <section class="py-5" id="weatherSection">
+    <div class="container border rounded-4 p-5 bg-primary bg-gradient text-white">
 
-    <div class="text-center mb-5">
-      <p class="text-uppercase small text-white-50 mb-2">Live Data</p>
-      <h2 class="text-uppercase small text-white-50 mb-1">Your Mom's House</h2>
-      <h2 class="fw-bold">Athens Weather</h2>
-    </div>
-
-    <div id="weatherCard"
-         class="weather-glass mx-auto p-4 text-center"
-         style="max-width: 500px;">
-
-      <div id="weatherLoader">
-        <div class="spinner-border text-light" role="status"></div>
+      <div class="text-center mb-5">
+        <p class="text-uppercase small text-white-50 mb-2">Live Data</p>
+        <h2 class="text-uppercase small text-white-50 mb-1">Your Mom's House</h2>
+        <h2 class="fw-bold">Athens Weather</h2>
       </div>
 
-      <div id="weatherContent" class="d-none"></div>
+      <div id="weatherCard"
+           class="mx-auto p-4 text-center"
+           style="max-width: 500px;">
 
-      <div id="weatherError" class="text-warning d-none">
-        Unable to load weather data.
+        <div id="weatherLoader">
+          <div class="spinner-border text-light" role="status"></div>
+        </div>
+
+        <div id="weatherContent" class="d-none"></div>
+
+        <div id="weatherError" class="text-warning d-none">
+          Unable to load weather data.
+        </div>
+
       </div>
 
     </div>
+  </section>
 
-  </div>
-</section>
-
-  <!--Footer-->
+  <!-- Footer injected from main.js -->
   <div id="footer-placeholder"></div>
 
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/js/main.js"></script>
 </body>
 </html>

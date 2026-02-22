@@ -2,55 +2,68 @@ console.log("Yo mama's so fat, she stepped on a scale and it said, 'To be contin
 
 $(function () {
 
-  const header = `
-<!-- HEADER -->
-  <header class="stm-navbar fixed-top border-bottom" style="background:rgba(255,255,255,0.85);">
-    <div class="container-xl px-3 px-md-4">
-      <div class="d-flex align-items-center justify-content-between" style="height:70px;">
+const header = `
 
-        <a href="/index.html" class="fw-bold text-dark text-decoration-none fs-6">STM</a>
+<header class="stm-navbar fixed-top border-bottom">
+  <div class="container-xl px-3 px-md-4">
 
-        <!-- Desktop Menu -->
-        <nav class="d-none d-lg-flex gap-4">
-          <a href="/index.html"     class="text-secondary text-decoration-none small fw-medium">Home</a>
-          <a href="/tasks.html"     class="text-secondary text-decoration-none small fw-medium">Tasks</a>
-          <a href="/about.html"     class="text-secondary text-decoration-none small fw-medium">About</a>
-          <a href="/analytics.html" class="text-secondary text-decoration-none small fw-medium">Analytics</a>
-          <a href="/contact.html"   class="text-secondary text-decoration-none small fw-medium">Contact</a>
-        </nav>
+    <div class="d-flex align-items-center justify-content-between" style="height:70px;">
 
-        <!-- Mobile menu -->
-        <button class="navbar-toggler d-lg-none border-0" type="button" 
-                data-bs-toggle="collapse" data-bs-target="#mobileMenu"
-                aria-controls="mobileMenu" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon navbar navbar-light"></span>
+      <!-- LEFT -->
+      <a href="/index.html" class="fw-bold text-body text-decoration-none fs-6">
+        STM
+      </a>
+
+      <!-- CENTER (Desktop Nav) -->
+      <nav class="d-none d-lg-flex gap-4">
+        <a href="/index.html" class="text-body-secondary small fw-medium text-decoration-none">Home</a>
+        <a href="/tasks.html" class="text-body-secondary small fw-medium text-decoration-none">Tasks</a>
+        <a href="/about.html" class="text-body-secondary small fw-medium text-decoration-none">About</a>
+        <a href="/analytics.html" class="text-body-secondary small fw-medium text-decoration-none">Analytics</a>
+        <a href="/contact.html" class="text-body-secondary small fw-medium text-decoration-none">Contact</a>
+      </nav>
+
+      <!-- RIGHT SIDE -->
+      <div class="d-flex align-items-center gap-2">
+
+        <!-- DARK MODE TOGGLE -->
+        <button id="themeToggle" class="btn btn-outline-secondary btn-sm rounded-pill">
+          <i class="bi bi-moon"></i>
         </button>
 
-        <!-- Button -->
-        <div class="d-none d-lg-block">
-          <a href="./contact.html" class="btn btn-outline-dark rounded-pill px-4 py-2 small fw-medium">
-            Let's Connect
-          </a>
-        </div>
+        <!-- Desktop CTA -->
+        <a href="./contact.html"
+          class="btn btn-outline-secondary rounded-pill px-4 py-2 small fw-medium d-none d-lg-inline-block">
+          Let's Connect
+        </a>
+
+        <!-- Mobile menu button -->
+        <button class="navbar-toggler d-lg-none border-0"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#mobileMenu">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
       </div>
 
-      <!-- Mobile Dropdown Menu -->
-      <div class="collapse d-lg-none" id="mobileMenu">
-        <nav class="d-flex flex-column gap-2 pb-3">
-          <a href="/index.html"     class="text-secondary text-decoration-none small fw-medium py-1">Home</a>
-          <a href="/tasks.html"     class="text-secondary text-decoration-none small fw-medium py-1">Tasks</a>
-          <a href="/about.html"     class="text-secondary text-decoration-none small fw-medium py-1">About</a>
-          <a href="/analytics.html" class="text-secondary text-decoration-none small fw-medium py-1">Analytics</a>
-          <a href="/contact.html"   class="text-secondary text-decoration-none small fw-medium py-1">Contact</a>
-          <a href="./contact.html"  class="btn btn-outline-dark rounded-pill px-4 py-2 small fw-medium mt-2 w-100">
-            Let's Connect
-          </a>
-        </nav>
-      </div>
     </div>
-  </header>
-  `;
+
+    <!-- Mobile menu -->
+    <div class="collapse d-lg-none" id="mobileMenu">
+      <nav class="d-flex flex-column gap-2 pb-3">
+        <a href="/index.html" class="text-body-secondary small fw-medium py-1">Home</a>
+        <a href="/tasks.html" class="text-body-secondary small fw-medium py-1">Tasks</a>
+        <a href="/about.html" class="text-body-secondary small fw-medium py-1">About</a>
+        <a href="/analytics.html" class="text-body-secondary small fw-medium py-1">Analytics</a>
+        <a href="/contact.html" class="text-body-secondary small fw-medium py-1">Contact</a>
+      </nav>
+    </div>
+
+  </div>
+</header>
+`;
+
 
   $("#header-placeholder").html(header);
 
@@ -218,3 +231,39 @@ $(function () {
 
 });
 
+
+//dark mode toggle
+
+const THEME_KEY = "stm_theme";
+
+function applyTheme(theme) {
+
+  // switch
+  document.documentElement.setAttribute("data-bs-theme", theme);
+
+}
+
+function loadTheme() {
+  return localStorage.getItem(THEME_KEY) || "light";
+}
+
+function saveTheme(theme) {
+  localStorage.setItem(THEME_KEY, theme);
+}
+
+// apply saved theme on load
+document.addEventListener("DOMContentLoaded", () => {
+  applyTheme(loadTheme());
+});
+
+// toggle 
+$(document).on("click", "#themeToggle", function () {
+
+  const current = document.documentElement.getAttribute("data-bs-theme");
+
+  const newTheme = current === "dark" ? "light" : "dark";
+
+  applyTheme(newTheme);
+  saveTheme(newTheme);
+
+});
