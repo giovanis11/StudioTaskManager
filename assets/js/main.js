@@ -1,4 +1,4 @@
-console.log("JS WORKING");
+console.log("Yo mama's so fat, she stepped on a scale and it said, 'To be continued'");
 
 $(function () {
 
