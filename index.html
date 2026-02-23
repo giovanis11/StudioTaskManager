@@ -110,7 +110,57 @@
     </div>
   </section>
 
-  <!-- Footer injected from main.js -->
+  <!--Latest Acticity-->
+<section class="py-5">
+
+  <div class="container">
+
+    <div class="text-center mb-5">
+      <h2 class="fw-bold">Latest Activity</h2>
+      <p class="text-body-secondary">
+        Recent updates from your task manager
+      </p>
+    </div>
+
+    <div class="row g-4">
+
+      <!-- Recently Added -->
+      <div class="col-12 col-lg-6">
+        <div class="border border-secondary-subtle rounded-4 p-4 bg-body shadow-sm h-100">
+
+          <h5 class="fw-semibold mb-4">Recently Added</h5>
+
+        <div id="latestAdded" class="activity-list overflow-auto" style="max-height: 300px;"></div>
+
+        </div>
+      </div>
+
+      <!-- Recently Completed -->
+      <div class="col-12 col-lg-6">
+        <div class="border border-secondary-subtle rounded-4 p-4 bg-body shadow-sm h-100">
+
+          <h5 class="fw-semibold mb-4">Recently Completed</h5>
+
+          <div id="latestCompleted" class="activity-list overflow-auto" style="max-height: 300px;"></div>
+
+        </div>
+      </div>
+
+    </div>
+    <div class="text-center mt-4">
+      <a href="tasks.html" class="btn btn-outline-primary rounded-pill px-4 py-2 small fw-medium">
+        Add Your Tasks
+      </a>
+
+    </div>
+
+  </div>
+  
+
+</section>
+
+
+  <!-- Footer  -->
   <div id="footer-placeholder"></div>
 
 </body>

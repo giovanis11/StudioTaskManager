@@ -4,10 +4,10 @@ $(function () {
 
 const header = `
 
-<header class="stm-navbar fixed-top border-bottom">
+<header class="stm-navbar fixed-top border-bottom bg-body">
   <div class="container-xl px-3 px-md-4">
 
-    <div class="d-flex align-items-center justify-content-between" style="height:70px;">
+    <div class="bg-body d-flex align-items-center justify-content-between" style="height:70px;">
 
       <!-- LEFT -->
       <a href="/index.html" class="fw-bold text-body text-decoration-none fs-6">
@@ -20,6 +20,7 @@ const header = `
         <a href="/tasks.html" class="text-body-secondary small fw-medium text-decoration-none">Tasks</a>
         <a href="/about.html" class="text-body-secondary small fw-medium text-decoration-none">About</a>
         <a href="/analytics.html" class="text-body-secondary small fw-medium text-decoration-none">Analytics</a>
+        <a href="/services.html" class="text-body-secondary small fw-medium text-decoration-none">Services</a>
         <a href="/contact.html" class="text-body-secondary small fw-medium text-decoration-none">Contact</a>
       </nav>
 
@@ -38,25 +39,32 @@ const header = `
         </a>
 
         <!-- Mobile menu button -->
-        <button class="navbar-toggler d-lg-none border-0"
+        <button class="btn d-lg-none p-0 border-0 text-body"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#mobileMenu">
-          <span class="navbar-toggler-icon"></span>
+          data-bs-target="#mobileMenu"
+          aria-controls="mobileMenu"
+          aria-expanded="false"
+          aria-label="Toggle navigation">
+
+          <i class="bi bi-list fs-2"></i>
+
         </button>
+
 
       </div>
 
     </div>
 
     <!-- Mobile menu -->
-    <div class="collapse d-lg-none" id="mobileMenu">
-      <nav class="d-flex flex-column gap-2 pb-3">
-        <a href="/index.html" class="text-body-secondary small fw-medium py-1">Home</a>
-        <a href="/tasks.html" class="text-body-secondary small fw-medium py-1">Tasks</a>
-        <a href="/about.html" class="text-body-secondary small fw-medium py-1">About</a>
-        <a href="/analytics.html" class="text-body-secondary small fw-medium py-1">Analytics</a>
-        <a href="/contact.html" class="text-body-secondary small fw-medium py-1">Contact</a>
+    <div class="collapse d-lg-none bg-body border-top shadow-sm" id="mobileMenu">
+      <nav class="d-flex flex-column gap-2 pb-3 decoration-none">
+        <a href="/index.html" class="text-body-secondary small fw-medium py-1 text-decoration-none">Home</a>
+        <a href="/tasks.html" class="text-body-secondary small fw-medium py-1 text-decoration-none">Tasks</a>
+        <a href="/about.html" class="text-body-secondary small fw-medium py-1 text-decoration-none">About</a>
+        <a href="/analytics.html" class="text-body-secondary small fw-medium py-1 text-decoration-none">Analytics</a>
+        <a href="/services.html" class="text-body-secondary small fw-medium py-1 text-decoration-none">Services</a>
+        <a href="/contact.html" class="text-body-secondary small fw-medium py-1 text-decoration-none">Contact</a>
       </nav>
     </div>
 
@@ -267,3 +275,118 @@ $(document).on("click", "#themeToggle", function () {
   saveTheme(newTheme);
 
 });
+
+
+//latest 
+
+function loadTasksForActivity() {
+
+  const STORAGE_KEY = "stm_tasks_v3";
+  const raw = localStorage.getItem(STORAGE_KEY);
+
+  return raw ? JSON.parse(raw) : [];
+
+}
+
+function renderLatestActivity() {
+
+  const tasks = loadTasksForActivity();
+
+  const addedContainer = document.querySelector("#latestAdded");
+  const completedContainer = document.querySelector("#latestCompleted");
+
+  if (!addedContainer || !completedContainer) return;
+
+  addedContainer.innerHTML = "";
+  completedContainer.innerHTML = "";
+
+  if (tasks.length === 0) {
+
+    addedContainer.innerHTML = `
+      <p class="text-body-secondary small mb-0">No tasks yet.</p>
+    `;
+
+    completedContainer.innerHTML = `
+      <p class="text-body-secondary small mb-0">No completed tasks yet.</p>
+    `;
+
+    return;
+  }
+
+  const latestAdded = [...tasks].reverse().slice(0, 5);
+
+  latestAdded.forEach(task => {
+
+    addedContainer.innerHTML += `
+      <div class="d-flex justify-content-between align-items-start border-bottom pb-3 mb-3">
+
+        <div class="flex-grow-1 me-3">
+
+          <div class="fw-medium text-break">
+            ${task.title}
+          </div>
+
+          <div class="text-body-secondary small">
+            Added task
+          </div>
+
+        </div>
+
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle flex-shrink-0">
+          NEW
+        </span>
+
+      </div>
+    `;
+
+  });
+
+
+  //Latest Completed 
+
+  const latestCompleted = tasks
+    .filter(t => t.status === "completed")
+    .reverse()
+    .slice(0, 5);
+
+  if (latestCompleted.length === 0) {
+
+    completedContainer.innerHTML = `
+      <p class="text-body-secondary small mb-0">
+        No completed tasks yet.
+      </p>
+    `;
+
+  } else {
+
+    latestCompleted.forEach(task => {
+
+      completedContainer.innerHTML += `
+        <div class="d-flex justify-content-between align-items-start border-bottom pb-3 mb-3">
+
+          <div class="flex-grow-1 me-3">
+
+            <div class="fw-medium text-break">
+              ${task.title}
+            </div>
+
+            <div class="text-success small">
+              Completed
+            </div>
+
+          </div>
+
+          <span class="badge bg-success-subtle text-success border border-success-subtle flex-shrink-0">
+            ✓
+          </span>
+
+        </div>
+      `;
+
+    });
+
+  }
+
+}
+
+document.addEventListener("DOMContentLoaded", renderLatestActivity);

@@ -100,7 +100,7 @@ function renderTasks() {
   visibleTasks.forEach(task => {
 
     const card = document.createElement("article");
-    card.className = "border border-secondary-subtle rounded-4 p-3 p-md-4 bg-white shadow-sm mb-3";
+    card.className = "border border-secondary-subtle rounded-4 p-3 p-md-4 bg-white shadow-sm mb-3 bg-body";
 
     if (isOverdue(task)) {
       card.classList.add("border-danger");
