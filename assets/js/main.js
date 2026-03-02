@@ -1,21 +1,19 @@
-console.log("Yo mama's so fat, she stepped on a scale and it said, 'To be continued'");
-
 $(function () {
 
 const header = `
 
-<header class="stm-navbar fixed-top border-bottom bg-body">
+<header class="stm-navbar fixed-top border-bottom bg-body" role="banner">
   <div class="container-xl px-3 px-md-4">
 
     <div class="bg-body d-flex align-items-center justify-content-between" style="height:70px;">
 
       <!-- LEFT -->
-      <a href="/index.html" class="fw-bold text-body text-decoration-none fs-6">
+      <a href="/index.html" class="fw-bold text-body text-decoration-none fs-6" aria-label="Studio Task Manager home">
         STM
       </a>
 
       <!-- CENTER (Desktop Nav) -->
-      <nav class="d-none d-lg-flex gap-4">
+      <nav class="d-none d-lg-flex gap-4" aria-label="Primary">
         <a href="/index.html" class="text-body-secondary small fw-medium text-decoration-none">Home</a>
         <a href="/tasks.html" class="text-body-secondary small fw-medium text-decoration-none">Tasks</a>
         <a href="/about.html" class="text-body-secondary small fw-medium text-decoration-none">About</a>
@@ -28,8 +26,8 @@ const header = `
       <div class="d-flex align-items-center gap-2">
 
         <!-- DARK MODE TOGGLE -->
-        <button id="themeToggle" class="btn btn-outline-secondary btn-sm rounded-pill">
-          <i class="bi bi-moon"></i>
+        <button id="themeToggle" class="btn btn-outline-secondary btn-sm rounded-pill" type="button" aria-label="Switch to dark theme" aria-pressed="false">
+          <i class="bi bi-moon" aria-hidden="true"></i>
         </button>
 
         <!-- Desktop CTA -->
@@ -47,7 +45,7 @@ const header = `
           aria-expanded="false"
           aria-label="Toggle navigation">
 
-          <i class="bi bi-list fs-2"></i>
+          <i class="bi bi-list fs-2" aria-hidden="true"></i>
 
         </button>
 
@@ -58,7 +56,7 @@ const header = `
 
     <!-- Mobile menu -->
     <div class="collapse d-lg-none bg-body border-top shadow-sm" id="mobileMenu">
-      <nav class="d-flex flex-column gap-2 pb-3 decoration-none">
+      <nav class="d-flex flex-column gap-2 pb-3 decoration-none" aria-label="Mobile">
         <a href="/index.html" class="text-body-secondary small fw-medium py-1 text-decoration-none">Home</a>
         <a href="/tasks.html" class="text-body-secondary small fw-medium py-1 text-decoration-none">Tasks</a>
         <a href="/about.html" class="text-body-secondary small fw-medium py-1 text-decoration-none">About</a>
@@ -74,13 +72,15 @@ const header = `
 
 
   $("#header-placeholder").html(header);
+  syncCurrentNavLinks();
+  setThemeToggleState(loadTheme());
 
 });
 
 $(function () {
 
   const footer = `
-  <footer class="bg-black text-white py-5 mt-5">
+  <footer class="bg-black text-white py-5 mt-5" role="contentinfo">
 
     <div class="container-fluid px-5">
 
@@ -107,23 +107,29 @@ $(function () {
 
         <a href="https://github.com/giovanis11"
           target="_blank"
+          rel="noopener noreferrer"
+          aria-label="GitHub profile (opens in a new tab)"
           class="btn btn-outline-light rounded-circle d-flex align-items-center justify-content-center"
           style="width:45px;height:45px;">
-          <i class="bi bi-github"></i>
+          <i class="bi bi-github" aria-hidden="true"></i>
         </a>
 
         <a href="https://www.linkedin.com/in/nikos-giovanis-141916253"
           target="_blank"
+          rel="noopener noreferrer"
+          aria-label="LinkedIn profile (opens in a new tab)"
           class="btn btn-outline-light rounded-circle d-flex align-items-center justify-content-center"
           style="width:45px;height:45px;">
-          <i class="bi bi-linkedin"></i>
+          <i class="bi bi-linkedin" aria-hidden="true"></i>
         </a>
 
         <a href="https://www.instagram.com/nikos.giovaniss"
           target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Instagram profile (opens in a new tab)"
           class="btn btn-outline-light rounded-circle d-flex align-items-center justify-content-center"
           style="width:45px;height:45px;">
-          <i class="bi bi-instagram"></i>
+          <i class="bi bi-instagram" aria-hidden="true"></i>
         </a>
 
       </div>
@@ -150,8 +156,10 @@ $(document).ready(function () {
 
         const latitude = 37.98;
         const longitude = 23.72;
+        const weatherCard = $("#weatherCard");
 
         const apiURL = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`;
+        weatherCard.attr("aria-busy", "true");
 
         $.ajax({
             url: apiURL,
@@ -167,9 +175,10 @@ $(document).ready(function () {
 
                     $("#weatherLoader").addClass("d-none");
                     $("#weatherContent").removeClass("d-none");
+                    weatherCard.attr("aria-busy", "false");
 
                     $("#weatherContent").html(`
-                        <div class="mb-3">
+                        <div class="mb-3" role="status" aria-live="polite">
                             <h3 class="display-5 fw-bold text-white">${temp}°C</h3>
                             <p class="text-white-50 mb-1">Athens, Greece</p>
                             <small class="text-white-50">Updated: ${time}</small>
@@ -196,7 +205,8 @@ $(document).ready(function () {
 
     function showError() {
         $("#weatherLoader").addClass("d-none");
-        $("#weatherError").removeClass("d-none");
+        $("#weatherError").removeClass("d-none").attr("role", "alert");
+        $("#weatherCard").attr("aria-busy", "false");
     }
 
     fetchWeather();
@@ -248,6 +258,7 @@ function applyTheme(theme) {
 
   // switch
   document.documentElement.setAttribute("data-bs-theme", theme);
+  setThemeToggleState(theme);
 
 }
 
@@ -275,6 +286,41 @@ $(document).on("click", "#themeToggle", function () {
   saveTheme(newTheme);
 
 });
+
+function setThemeToggleState(theme) {
+  const toggle = document.getElementById("themeToggle");
+  if (!toggle) return;
+
+  const isDark = theme === "dark";
+  toggle.setAttribute("aria-pressed", String(isDark));
+  toggle.setAttribute("aria-label", isDark ? "Switch to light theme" : "Switch to dark theme");
+
+  const icon = toggle.querySelector("i");
+  if (!icon) return;
+
+  icon.className = isDark ? "bi bi-sun" : "bi bi-moon";
+  icon.setAttribute("aria-hidden", "true");
+}
+
+function syncCurrentNavLinks() {
+  const currentPath = window.location.pathname.replace(/\/+$/, "") || "/index.html";
+  const normalizedCurrentPath = currentPath === "/" ? "/index.html" : currentPath;
+  const links = document.querySelectorAll("header nav a[href]");
+
+  links.forEach(link => {
+    const href = (link.getAttribute("href") || "").replace(/\/+$/, "") || "/index.html";
+    const normalizedHref = href === "/" ? "/index.html" : href;
+    const isCurrent =
+      normalizedCurrentPath === normalizedHref ||
+      normalizedCurrentPath.endsWith(normalizedHref);
+
+    if (isCurrent) {
+      link.setAttribute("aria-current", "page");
+    } else {
+      link.removeAttribute("aria-current");
+    }
+  });
+}
 
 
 //latest 
@@ -318,7 +364,7 @@ function renderLatestActivity() {
   latestAdded.forEach(task => {
 
     addedContainer.innerHTML += `
-      <div class="d-flex justify-content-between align-items-start border-bottom pb-3 mb-3">
+      <div class="d-flex justify-content-between align-items-start border-bottom pb-3 mb-3" role="listitem">
 
         <div class="flex-grow-1 me-3">
 
@@ -362,7 +408,7 @@ function renderLatestActivity() {
     latestCompleted.forEach(task => {
 
       completedContainer.innerHTML += `
-        <div class="d-flex justify-content-between align-items-start border-bottom pb-3 mb-3">
+        <div class="d-flex justify-content-between align-items-start border-bottom pb-3 mb-3" role="listitem">
 
           <div class="flex-grow-1 me-3">
 

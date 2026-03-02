@@ -7,6 +7,8 @@ const STORAGE_KEY = "stm_tasks_v3";
 const DESCRIPTION_CHAR_LIMIT = 180;
 
 let tasks = [];
+let announcementRegion = null;
+let lastFocusedElement = null;
 
 /// storage
 function loadTasks() {
@@ -22,7 +24,7 @@ function generateId() {
   return crypto.randomUUID();
 }
 
-/* Helpers */
+///Helpers 
 function badgeClasses(status) {
   if (status === "completed")
     return "badge rounded-pill border fw-medium px-3 py-2 text-success border-success bg-success-subtle";
@@ -79,6 +81,15 @@ function validatePastDateCompleted(dueDateInput, statusInput) {
   }
 }
 
+function announce(message) {
+  if (!announcementRegion || !message) return;
+  announcementRegion.textContent = "";
+
+  requestAnimationFrame(() => {
+    announcementRegion.textContent = message;
+  });
+}
+
 /* Summary*/
 function updateTaskSummary() {
   const total = tasks.length;
@@ -120,15 +131,17 @@ function renderTasks() {
   if (visibleTasks.length === 0) {
     const empty = document.createElement("div");
     empty.className = "border border-secondary-subtle rounded-4 p-4 small text-secondary bg-white text-center";
+    empty.setAttribute("role", "listitem");
     empty.textContent = "No tasks found.";
     taskList.appendChild(empty);
-    return;
+    return 0;
   }
 
   visibleTasks.forEach(task => {
 
     const card = document.createElement("article");
     card.className = "border border-secondary-subtle rounded-4 p-3 p-md-4 bg-white shadow-sm mb-3 bg-body";
+    card.setAttribute("role", "listitem");
 
     if (isOverdue(task)) {
       card.classList.add("border-danger");
@@ -141,6 +154,8 @@ function renderTasks() {
     const title = document.createElement("h3");
     title.className = "fs-6 fw-semibold mb-0";
     title.textContent = task.title;
+    title.id = `task-title-${task.id}`;
+    card.setAttribute("aria-labelledby", title.id);
 
     const badge = document.createElement("span");
     badge.className = badgeClasses(task.status);
@@ -151,10 +166,12 @@ function renderTasks() {
     /* Meta*/
     const meta = document.createElement("div");
     meta.className = "d-flex align-items-center gap-2 small text-secondary mb-2 flex-wrap";
+    meta.id = `task-meta-${task.id}`;
 
     const dot = document.createElement("span");
     dot.className = `rounded-circle ${priorityDotClass(task.priority)}`;
     dot.style.cssText = "width:10px; height:10px; display:inline-block;";
+    dot.setAttribute("aria-hidden", "true");
 
     meta.append(dot);
     meta.append(document.createTextNode(`Priority: ${task.priority} • Due: ${task.dueDate}`));
@@ -168,6 +185,8 @@ function renderTasks() {
     const descText = document.createElement("div");
     descText.className = "task-description";
     descText.textContent = shortText;
+    descText.id = `task-description-${task.id}`;
+    card.setAttribute("aria-describedby", `${meta.id} ${descText.id}`);
 
     descWrapper.appendChild(descText);
 
@@ -176,6 +195,9 @@ function renderTasks() {
       toggleBtn.type = "button";
       toggleBtn.className = "btn btn-link p-0 small";
       toggleBtn.textContent = "Read more";
+      toggleBtn.setAttribute("aria-expanded", "false");
+      toggleBtn.setAttribute("aria-controls", descText.id);
+      toggleBtn.setAttribute("aria-label", `Read full description for ${task.title}`);
 
       toggleBtn.addEventListener("click", () => {
         const expanded = descText.classList.toggle("expanded");
@@ -187,6 +209,7 @@ function renderTasks() {
         toggleBtn.textContent = expanded
           ? "Show less"
           : "Read more";
+        toggleBtn.setAttribute("aria-expanded", String(expanded));
       });
 
       descWrapper.appendChild(toggleBtn);
@@ -199,16 +222,20 @@ function renderTasks() {
     const editBtn = document.createElement("button");
     editBtn.textContent = "Edit";
     editBtn.className = "btn btn-outline-secondary btn-sm rounded-pill px-4";
+    editBtn.setAttribute("aria-label", `Edit task ${task.title}`);
     editBtn.onclick = () => openEditModal(task);
 
     const delBtn = document.createElement("button");
     delBtn.textContent = "Delete";
     delBtn.className = "btn btn-outline-danger btn-sm rounded-pill px-4";
+    delBtn.setAttribute("aria-label", `Delete task ${task.title}`);
     delBtn.onclick = () => {
       if (!confirm("Are you sure you want to delete this task?")) return;
+      const deletedTitle = task.title;
       tasks = tasks.filter(t => t.id !== task.id);
       saveTasks();
       renderTasks();
+      announce(`Task ${deletedTitle} deleted.`);
     };
 
     btnRow.append(editBtn, delBtn);
@@ -216,21 +243,31 @@ function renderTasks() {
     card.append(topRow, meta, descWrapper, btnRow);
     taskList.appendChild(card);
   });
+
+  return visibleTasks.length;
 }
 
 /* Modal */
 function openEditModal(task) {
+  lastFocusedElement = document.activeElement;
   editTaskId.value = task.id;
   editTitle.value = task.title;
   editDescription.value = task.description;
   editDueDate.value = task.dueDate;
   editStatus.value = task.status;
   editPriority.value = task.priority;
+  editModal.setAttribute("aria-hidden", "false");
   editModal.classList.add("open");
+  editTitle.focus();
 }
 
 function closeEditModal() {
+  editModal.setAttribute("aria-hidden", "true");
   editModal.classList.remove("open");
+
+  if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
+    lastFocusedElement.focus();
+  }
 }
 
 /* ---------------- Init ---------------- */
@@ -257,6 +294,7 @@ document.addEventListener("DOMContentLoaded", () => {
   window.editStatus = document.querySelector("#editStatus");
   window.editPriority = document.querySelector("#editPriority");
   window.cancelEdit = document.querySelector("#cancelEdit");
+  announcementRegion = document.querySelector("#taskAnnouncements");
 
   const statusFilter = document.querySelector("#statusFilter");
   const sortFilter = document.querySelector("#sortFilter");
@@ -290,9 +328,12 @@ document.addEventListener("DOMContentLoaded", () => {
       priority: taskPriority.value
     });
 
+    const createdTask = tasks[tasks.length - 1];
+
     saveTasks();
     renderTasks();
     taskForm.reset();
+    announce(`Task ${createdTask.title} added.`);
   });
 
   editTaskForm.addEventListener("submit", e => {
@@ -310,6 +351,7 @@ document.addEventListener("DOMContentLoaded", () => {
     saveTasks();
     renderTasks();
     closeEditModal();
+    announce(`Task ${task.title} updated.`);
   });
 
   cancelEdit.addEventListener("click", closeEditModal);
@@ -318,14 +360,22 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.target === editModal) closeEditModal();
   });
 
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && editModal.classList.contains("open")) {
+      closeEditModal();
+    }
+  });
+
   statusFilter.addEventListener("change", e => {
     currentFilter = e.target.value;
-    renderTasks();
+    const visibleCount = renderTasks();
+    announce(`${visibleCount} task${visibleCount === 1 ? "" : "s"} shown after filtering.`);
   });
 
   sortFilter.addEventListener("change", e => {
     currentSort = e.target.value;
-    renderTasks();
+    const visibleCount = renderTasks();
+    announce(`${visibleCount} task${visibleCount === 1 ? "" : "s"} shown after sorting.`);
   });
 
   taskSearch.addEventListener("input", e => {

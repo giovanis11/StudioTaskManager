@@ -30,30 +30,35 @@
   <!-- editing -->
   <div id="editModal"
        class="position-fixed top-0 start-0 w-100 h-100 align-items-center justify-content-center"
+       tabindex="-1"
+       role="dialog"
+       aria-modal="true"
+       aria-labelledby="editTaskHeading"
+       aria-hidden="true"
        style="background:rgba(0,0,0,.5); z-index:9999;">
     <div class="bg-body rounded-4 p-4 p-md-5 mx-3 mx-sm-auto w-100" style="max-width:32rem;">
-      <h2 class="fs-5 fw-semibold mb-4">Edit Task</h2>
+      <h2 id="editTaskHeading" class="fs-5 fw-semibold mb-4">Edit Task</h2>
       <form id="editTaskForm">
         <input type="hidden" id="editTaskId">
 
         <div class="mb-3">
-          <label class="form-label small fw-medium">Title</label>
+          <label for="editTitle" class="form-label small fw-medium">Title</label>
           <input id="editTitle" type="text" class="form-control" maxlength="40" required>
         </div>
 
         <div class="mb-3">
-          <label class="form-label small fw-medium">Description</label>
+          <label for="editDescription" class="form-label small fw-medium">Description</label>
           <textarea id="editDescription" rows="3" class="form-control" required></textarea>
         </div>
 
         <div class="mb-3">
-          <label class="form-label small fw-medium">Due Date</label>
+          <label for="editDueDate" class="form-label small fw-medium">Due Date</label>
           <input id="editDueDate" type="date" class="form-control" required>
         </div>
 
         <div class="row g-3 mb-3">
           <div class="col-12 col-sm-6">
-            <label class="form-label small fw-medium">Status</label>
+            <label for="editStatus" class="form-label small fw-medium">Status</label>
             <select id="editStatus" class="form-select">
               <option value="todo">To Do</option>
               <option value="in-progress">In Progress</option>
@@ -61,7 +66,7 @@
             </select>
           </div>
           <div class="col-12 col-sm-6">
-            <label class="form-label small fw-medium">Priority</label>
+            <label for="editPriority" class="form-label small fw-medium">Priority</label>
             <select id="editPriority" class="form-select">
               <option value="low">Low</option>
               <option value="medium">Medium</option>
@@ -168,6 +173,7 @@
 
       <!-- Search -->
       <div class="mb-3">
+        <label for="taskSearch" class="visually-hidden">Search tasks by title or description</label>
         <input type="text" id="taskSearch"
           class="form-control form-control-sm"
           placeholder="Search tasks by title or description...">
@@ -194,7 +200,7 @@
       </div>
 
       <!-- Summary -->
-      <section class="mb-4">
+      <section class="mb-4" aria-label="Task summary">
         <div class="row g-3">
           <div class="col-4">
             <div class="border border-secondary-subtle rounded-3 p-3 text-center">
@@ -227,7 +233,8 @@
             </p>
           </div>
         </div>
-        <div id="taskList"></div>
+        <p id="taskAnnouncements" class="visually-hidden" aria-live="polite" aria-atomic="true"></p>
+        <div id="taskList" role="list" aria-live="polite" aria-label="Task results"></div>
       </section>
 
     </div>

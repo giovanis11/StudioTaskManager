@@ -15,7 +15,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="assets/js/main.js"></script>
 
-<!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="assets/js/analytics.js"></script>
 
@@ -84,12 +83,16 @@
 
     <section class="border border-secondary-subtle rounded-4 p-3 p-md-4 bg-body shadow-sm mb-4">
       <h2 class="fs-5 fw-medium mb-3">Completed vs Pending</h2>
-      <canvas id="statusChart"></canvas>
+      <canvas id="statusChart" role="img" aria-label="Chart comparing completed and pending tasks">
+        Chart showing completed and pending tasks.
+      </canvas>
     </section>
 
     <section class="border border-secondary-subtle rounded-4 p-3 p-md-4 bg-body shadow-sm">
       <h2 class="fs-5 fw-medium mb-3">Priority Distribution</h2>
-      <canvas id="priorityChart"></canvas>
+      <canvas id="priorityChart" role="img" aria-label="Chart showing task priority distribution">
+        Chart showing low, medium, and high priority tasks.
+      </canvas>
     </section>
 
   </div>

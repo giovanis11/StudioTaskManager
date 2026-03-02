@@ -61,21 +61,21 @@
 
             <div>
               <h6>Follow Us</h6>
-              <div class="d-flex gap-3">
-                <a href="https://www.linkedin.com/in/nikos-giovanis-141916253?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank" class="text-body fs-4">
-                  <i class="bi bi-linkedin"></i>
+              <div class="d-flex gap-3" aria-label="Social links">
+                <a href="https://www.linkedin.com/in/nikos-giovanis-141916253?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn (opens in a new tab)" class="text-body fs-4">
+                  <i class="bi bi-linkedin" aria-hidden="true"></i>
                 </a>
-                <a href="https://www.instagram.com/nikos.giovaniss?igsh=anVjdm0ya2JqM2lt&utm_source=qr" target="_blank" class="text-body fs-4">
-                  <i class="bi bi-instagram"></i>
+                <a href="https://www.instagram.com/nikos.giovaniss?igsh=anVjdm0ya2JqM2lt&utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Instagram (opens in a new tab)" class="text-body fs-4">
+                  <i class="bi bi-instagram" aria-hidden="true"></i>
                 </a>
-                <a href="https://www.facebook.com/share/17195Lppzi/?mibextid=wwXIfr" target="_blank" class="text-body fs-4">
-                  <i class="bi bi-facebook"></i>
+                <a href="https://www.facebook.com/share/17195Lppzi/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook (opens in a new tab)" class="text-body fs-4">
+                  <i class="bi bi-facebook" aria-hidden="true"></i>
                 </a>
-                <a href="https://youtube.com/@nikosgiovanis773?si=uCCsxAHHxjTi5kMv" target="_blank" class="text-body fs-4">
-                  <i class="bi bi-youtube"></i>
+                <a href="https://youtube.com/@nikosgiovanis773?si=uCCsxAHHxjTi5kMv" target="_blank" rel="noopener noreferrer" aria-label="YouTube (opens in a new tab)" class="text-body fs-4">
+                  <i class="bi bi-youtube" aria-hidden="true"></i>
                 </a>
-                <a href="https://github.com/giovanis11" target="_blank" class="text-body fs-4">
-                  <i class="bi bi-github"></i>
+                <a href="https://github.com/giovanis11" target="_blank" rel="noopener noreferrer" aria-label="GitHub (opens in a new tab)" class="text-body fs-4">
+                  <i class="bi bi-github" aria-hidden="true"></i>
                 </a>
               </div>
             </div>
@@ -94,19 +94,19 @@
               <form class="needs-validation" novalidate>
 
                 <div class="mb-3">
-                  <label class="form-label">Full Name</label>
+                  <label for="fullName" class="form-label">Full Name</label>
                   <input type="text" id="fullName" class="form-control" placeholder="Your Name" required>
                   <div class="invalid-feedback">Please enter your name.</div>
                 </div>
 
                 <div class="mb-3">
-                  <label class="form-label">Email Address</label>
+                  <label for="email" class="form-label">Email Address</label>
                   <input type="email" id="email" class="form-control" placeholder="you@example.com" required>
                   <div class="invalid-feedback">Please enter a valid email address.</div>
                 </div>
 
                 <div class="mb-3">
-                  <label class="form-label">Message</label>
+                  <label for="message" class="form-label">Message</label>
                   <textarea id="message" class="form-control" rows="5" placeholder="Your message here..." required></textarea>
                   <div class="invalid-feedback">Please enter your message.</div>
                 </div>
@@ -130,13 +130,13 @@
 
 
     <!-- Great Success  -->
-    <div class="modal fade" id="successModal" tabindex="-1">
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content rounded-4">
 
           <div class="modal-header border-0">
-            <h5 class="modal-title fw-semibold">Submission Successful</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            <h5 id="successModalTitle" class="modal-title fw-semibold">Submission Successful</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close confirmation"></button>
           </div>
 
           <div class="modal-body">
@@ -170,6 +170,7 @@
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3143.7938630997874!2d23.83052597603095!3d38.00526837192823!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14a199709f059559%3A0xad1dacf4713268b2!2sThe%20American%20College%20of%20Greece!5e0!3m2!1sel!2sgr!4v1771447566957!5m2!1sel!2sgr"
             class="rounded rounded-4"
             style="border:0;"
+            title="Map showing The American College of Greece location"
             allowfullscreen
             loading="lazy"
             referrerpolicy="no-referrer-when-downgrade">
