@@ -143,7 +143,7 @@ $(function () {
 });
 
 
-
+  /* Api */
 $(document).ready(function () {
 
     function fetchWeather() {

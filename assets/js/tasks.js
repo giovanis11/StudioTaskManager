@@ -1,7 +1,7 @@
-// ===== Studio Task Manager – Production Version =====
 
 let currentFilter = "all";
 let currentSearch = "";
+let currentSort = "newest";
 
 const STORAGE_KEY = "stm_tasks_v3";
 const DESCRIPTION_CHAR_LIMIT = 180;
@@ -22,7 +22,7 @@ function generateId() {
   return crypto.randomUUID();
 }
 
-/* ---------------- Helpers ---------------- */
+/* Helpers */
 function badgeClasses(status) {
   if (status === "completed")
     return "badge rounded-pill border fw-medium px-3 py-2 text-success border-success bg-success-subtle";
@@ -55,7 +55,31 @@ function isOverdue(task) {
   return new Date(task.dueDate) < new Date().setHours(0, 0, 0, 0);
 }
 
-/* ---------------- Summary ---------------- */
+function parseDateInput(dateValue) {
+  const [year, month, day] = dateValue.split("-").map(Number);
+  return new Date(year, month - 1, day);
+}
+
+function isDateBeforeToday(dateValue) {
+  if (!dateValue) return false;
+  const selectedDate = parseDateInput(dateValue);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return selectedDate < today;
+}
+
+function validatePastDateCompleted(dueDateInput, statusInput) {
+  const pastDateSelected = isDateBeforeToday(dueDateInput.value);
+  const isCompleted = statusInput.value === "completed";
+
+  if (pastDateSelected && !isCompleted) {
+    statusInput.setCustomValidity("Tasks with a past date can only be saved as completed.");
+  } else {
+    statusInput.setCustomValidity("");
+  }
+}
+
+/* Summary*/
 function updateTaskSummary() {
   const total = tasks.length;
   const completed = tasks.filter(t => t.status === "completed").length;
@@ -66,7 +90,7 @@ function updateTaskSummary() {
   document.querySelector("#completedTasks").textContent = completed;
 }
 
-/* ---------------- Render ---------------- */
+/* Render */
 function renderTasks() {
   updateTaskSummary();
   taskList.replaceChildren();
@@ -74,7 +98,11 @@ function renderTasks() {
   let visibleTasks = [...tasks];
 
   // Sort by due date
-  visibleTasks.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+  if (currentSort === "oldest") {
+    visibleTasks.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+  } else {
+    visibleTasks.sort((a, b) => new Date(b.dueDate) - new Date(a.dueDate));
+  }
 
   // Filter by status
   if (currentFilter !== "all") {
@@ -106,7 +134,7 @@ function renderTasks() {
       card.classList.add("border-danger");
     }
 
-    /* ---------- Top Row ---------- */
+    /* top row */
     const topRow = document.createElement("div");
     topRow.className = "d-flex flex-column flex-sm-row justify-content-between align-items-start gap-2 mb-2";
 
@@ -120,7 +148,7 @@ function renderTasks() {
 
     topRow.append(title, badge);
 
-    /* ---------- Meta ---------- */
+    /* Meta*/
     const meta = document.createElement("div");
     meta.className = "d-flex align-items-center gap-2 small text-secondary mb-2 flex-wrap";
 
@@ -164,7 +192,7 @@ function renderTasks() {
       descWrapper.appendChild(toggleBtn);
     }
 
-    /* ---------- Buttons ---------- */
+    /* buttons */
     const btnRow = document.createElement("div");
     btnRow.className = "d-flex flex-column flex-sm-row gap-2";
 
@@ -190,7 +218,7 @@ function renderTasks() {
   });
 }
 
-/* ---------------- Modal ---------------- */
+/* Modal */
 function openEditModal(task) {
   editTaskId.value = task.id;
   editTitle.value = task.title;
@@ -231,12 +259,27 @@ document.addEventListener("DOMContentLoaded", () => {
   window.cancelEdit = document.querySelector("#cancelEdit");
 
   const statusFilter = document.querySelector("#statusFilter");
+  const sortFilter = document.querySelector("#sortFilter");
   const taskSearch = document.querySelector("#taskSearch");
 
   renderTasks();
 
+  taskDueDate.addEventListener("change", () => {
+    validatePastDateCompleted(taskDueDate, taskStatus);
+  });
+
+  taskStatus.addEventListener("change", () => {
+    validatePastDateCompleted(taskDueDate, taskStatus);
+  });
+
   taskForm.addEventListener("submit", e => {
     e.preventDefault();
+
+    validatePastDateCompleted(taskDueDate, taskStatus);
+    if (!taskForm.checkValidity()) {
+      taskForm.reportValidity();
+      return;
+    }
 
     tasks.push({
       id: generateId(),
@@ -277,6 +320,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   statusFilter.addEventListener("change", e => {
     currentFilter = e.target.value;
+    renderTasks();
+  });
+
+  sortFilter.addEventListener("change", e => {
+    currentSort = e.target.value;
     renderTasks();
   });
 
