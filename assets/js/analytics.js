@@ -37,7 +37,7 @@ function calculateAnalytics(tasks) {
 }
 function createStatusChart(data) {
 
-  const ctx = document.getElementById("statusChart");
+  const ctx = document.querySelector("#statusChart");
 
   new Chart(ctx, {
     type: "pie",
@@ -54,7 +54,7 @@ function createStatusChart(data) {
 }
 function createPriorityChart(data) {
 
-  const ctx = document.getElementById("priorityChart");
+  const ctx = document.querySelector("#priorityChart");
 
   new Chart(ctx, {
     type: "bar",
@@ -96,9 +96,8 @@ function updateMetrics(tasks) {
     ? 0
     : Math.round((completed / total) * 100);
 
-  document.getElementById("metricTotal").textContent = total;
-  document.getElementById("metricCompleted").textContent = completed;
-  document.getElementById("metricPending").textContent = pending;
-  document.getElementById("metricRate").textContent = completionRate + "%";
+  document.querySelector("#metricTotal").textContent = total;
+  document.querySelector("#metricCompleted").textContent = completed;
+  document.querySelector("#metricPending").textContent = pending;
+  document.querySelector("#metricRate").textContent = completionRate + "%";
 }
-

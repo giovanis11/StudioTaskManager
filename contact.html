@@ -140,10 +140,27 @@
           </div>
 
           <div class="modal-body">
-            <p><strong>Name:</strong> <span id="modalName"></span></p>
+            <p class="mb-1"><strong>Name:</strong></p>
+            <p class="text-muted contact-modal-name mb-1" id="modalName"></p>
+            <button
+              type="button"
+              id="modalNameToggle"
+              class="btn btn-link p-0 small d-none"
+              aria-expanded="false"
+              aria-controls="modalName">
+              Read more
+            </button>
             <p><strong>Email:</strong> <span id="modalEmail"></span></p>
             <p><strong>Message:</strong></p>
-            <p class="text-muted" id="modalMessage"></p>
+            <p class="text-muted contact-modal-message mb-1" id="modalMessage"></p>
+            <button
+              type="button"
+              id="modalMessageToggle"
+              class="btn btn-link p-0 small d-none"
+              aria-expanded="false"
+              aria-controls="modalMessage">
+              Read more
+            </button>
           </div>
 
           <div class="modal-footer border-0">

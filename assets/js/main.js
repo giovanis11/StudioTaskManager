@@ -20,6 +20,7 @@ const header = `
         <a href="/analytics.html" class="text-body-secondary small fw-medium text-decoration-none">Analytics</a>
         <a href="/services.html" class="text-body-secondary small fw-medium text-decoration-none">Services</a>
         <a href="/contact.html" class="text-body-secondary small fw-medium text-decoration-none">Contact</a>
+        <a href="/submissions.html" class="text-body-secondary small fw-medium text-decoration-none">Submissions</a>
       </nav>
 
       <!-- RIGHT SIDE -->
@@ -63,6 +64,7 @@ const header = `
         <a href="/analytics.html" class="text-body-secondary small fw-medium py-1 text-decoration-none">Analytics</a>
         <a href="/services.html" class="text-body-secondary small fw-medium py-1 text-decoration-none">Services</a>
         <a href="/contact.html" class="text-body-secondary small fw-medium py-1 text-decoration-none">Contact</a>
+        <a href="/submissions.html" class="text-body-secondary small fw-medium py-1 text-decoration-none">Submissions</a>
       </nav>
     </div>
 
@@ -93,7 +95,7 @@ $(function () {
 
       <div class="d-flex flex-wrap gap-3 mb-4">
 
-        <a href="mailto:your@email.com" class="btn btn-outline-light px-4">
+        <a href="/contact.html" class="btn btn-outline-light px-4">
           Get in touch
         </a>
 
@@ -215,6 +217,44 @@ $(document).ready(function () {
 
 /* contact script for  */
 $(function () {
+  const modalNamePreviewLimit = 60;
+  const modalMessagePreviewLimit = 180;
+  let fullModalName = "";
+  let shortModalName = "";
+  let fullModalMessage = "";
+  let shortModalMessage = "";
+
+  function setModalName(expanded) {
+    const nameEl = document.querySelector("#modalName");
+    const toggleEl = document.querySelector("#modalNameToggle");
+    if (!nameEl || !toggleEl) return;
+
+    nameEl.classList.toggle("expanded", expanded);
+    nameEl.textContent = expanded ? fullModalName : shortModalName;
+    toggleEl.textContent = expanded ? "Show less" : "Read more";
+    toggleEl.setAttribute("aria-expanded", String(expanded));
+  }
+
+  function setModalMessage(expanded) {
+    const messageEl = document.querySelector("#modalMessage");
+    const toggleEl = document.querySelector("#modalMessageToggle");
+    if (!messageEl || !toggleEl) return;
+
+    messageEl.classList.toggle("expanded", expanded);
+    messageEl.textContent = expanded ? fullModalMessage : shortModalMessage;
+    toggleEl.textContent = expanded ? "Show less" : "Read more";
+    toggleEl.setAttribute("aria-expanded", String(expanded));
+  }
+
+  $("#modalNameToggle").on("click", function () {
+    const isExpanded = $(this).attr("aria-expanded") === "true";
+    setModalName(!isExpanded);
+  });
+
+  $("#modalMessageToggle").on("click", function () {
+    const isExpanded = $(this).attr("aria-expanded") === "true";
+    setModalMessage(!isExpanded);
+  });
 
   $('.needs-validation').on('submit', function (event) {
 
@@ -228,17 +268,58 @@ $(function () {
     event.preventDefault();
 
     // Get values
-    const name = $('#fullName').val();
-    const email = $('#email').val();
-    const message = $('#message').val();
+    const name = $('#fullName').val().trim();
+    const email = $('#email').val().trim();
+    const message = $('#message').val().trim();
+
+    // Save submission in localStorage
+    const contactStorageKey = "stm_contact_submissions_v1";
+    const submissions = JSON.parse(localStorage.getItem(contactStorageKey) || "[]");
+
+    submissions.push({
+      name,
+      email,
+      message,
+      createdAt: new Date().toISOString()
+    });
+
+    localStorage.setItem(contactStorageKey, JSON.stringify(submissions));
 
     // Inject into modal
-    $('#modalName').text(name);
+    const nameToggle = $("#modalNameToggle");
+    const nameNeedsReadMore = name.length > modalNamePreviewLimit;
+    fullModalName = name;
+    shortModalName = nameNeedsReadMore
+      ? `${name.slice(0, modalNamePreviewLimit)}...`
+      : name;
+
+    if (nameNeedsReadMore) {
+      nameToggle.removeClass("d-none");
+      setModalName(false);
+    } else {
+      nameToggle.addClass("d-none");
+      $("#modalName").removeClass("expanded").text(name);
+    }
+
     $('#modalEmail').text(email);
-    $('#modalMessage').text(message);
+
+    const messageToggle = $("#modalMessageToggle");
+    const needsReadMore = message.length > modalMessagePreviewLimit;
+    fullModalMessage = message;
+    shortModalMessage = needsReadMore
+      ? `${message.slice(0, modalMessagePreviewLimit)}...`
+      : message;
+
+    if (needsReadMore) {
+      messageToggle.removeClass("d-none");
+      setModalMessage(false);
+    } else {
+      messageToggle.addClass("d-none");
+      $("#modalMessage").removeClass("expanded").text(message);
+    }
 
     // Show modal
-    const modal = new bootstrap.Modal(document.getElementById('successModal'));
+    const modal = new bootstrap.Modal(document.querySelector('#successModal'));
     modal.show();
 
     // Reset form
@@ -288,7 +369,7 @@ $(document).on("click", "#themeToggle", function () {
 });
 
 function setThemeToggleState(theme) {
-  const toggle = document.getElementById("themeToggle");
+  const toggle = document.querySelector("#themeToggle");
   if (!toggle) return;
 
   const isDark = theme === "dark";
