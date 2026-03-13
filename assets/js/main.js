@@ -8,19 +8,19 @@ const header = `
     <div class="bg-body d-flex align-items-center justify-content-between" style="height:70px;">
 
       <!-- LEFT -->
-      <a href="/index.html" class="fw-bold text-body text-decoration-none fs-6" aria-label="Studio Task Manager home">
+      <a href="./index.html" class="fw-bold text-body text-decoration-none fs-6" aria-label="Studio Task Manager home">
         STM
       </a>
 
       <!-- CENTER (Desktop Nav) -->
       <nav class="d-none d-lg-flex gap-4" aria-label="Primary">
-        <a href="/index.html" class="text-body-secondary small fw-medium text-decoration-none">Home</a>
-        <a href="/tasks.html" class="text-body-secondary small fw-medium text-decoration-none">Tasks</a>
-        <a href="/about.html" class="text-body-secondary small fw-medium text-decoration-none">About</a>
-        <a href="/analytics.html" class="text-body-secondary small fw-medium text-decoration-none">Analytics</a>
-        <a href="/services.html" class="text-body-secondary small fw-medium text-decoration-none">Services</a>
-        <a href="/contact.html" class="text-body-secondary small fw-medium text-decoration-none">Contact</a>
-        <a href="/submissions.html" class="text-body-secondary small fw-medium text-decoration-none">Submissions</a>
+        <a href="./index.html" class="text-body-secondary small fw-medium text-decoration-none">Home</a>
+        <a href="./tasks.html" class="text-body-secondary small fw-medium text-decoration-none">Tasks</a>
+        <a href="./about.html" class="text-body-secondary small fw-medium text-decoration-none">About</a>
+        <a href="./analytics.html" class="text-body-secondary small fw-medium text-decoration-none">Analytics</a>
+        <a href="./services.html" class="text-body-secondary small fw-medium text-decoration-none">Services</a>
+        <a href="./contact.html" class="text-body-secondary small fw-medium text-decoration-none">Contact</a>
+        <a href="./submissions.html" class="text-body-secondary small fw-medium text-decoration-none">Submissions</a>
       </nav>
 
       <!-- RIGHT SIDE -->
@@ -58,13 +58,13 @@ const header = `
     <!-- Mobile menu -->
     <div class="collapse d-lg-none bg-body border-top shadow-sm" id="mobileMenu">
       <nav class="d-flex flex-column gap-2 pb-3 decoration-none" aria-label="Mobile">
-        <a href="/index.html" class="text-body-secondary small fw-medium py-1 text-decoration-none">Home</a>
-        <a href="/tasks.html" class="text-body-secondary small fw-medium py-1 text-decoration-none">Tasks</a>
-        <a href="/about.html" class="text-body-secondary small fw-medium py-1 text-decoration-none">About</a>
-        <a href="/analytics.html" class="text-body-secondary small fw-medium py-1 text-decoration-none">Analytics</a>
-        <a href="/services.html" class="text-body-secondary small fw-medium py-1 text-decoration-none">Services</a>
-        <a href="/contact.html" class="text-body-secondary small fw-medium py-1 text-decoration-none">Contact</a>
-        <a href="/submissions.html" class="text-body-secondary small fw-medium py-1 text-decoration-none">Submissions</a>
+        <a href="./index.html" class="text-body-secondary small fw-medium py-1 text-decoration-none">Home</a>
+        <a href="./tasks.html" class="text-body-secondary small fw-medium py-1 text-decoration-none">Tasks</a>
+        <a href="./about.html" class="text-body-secondary small fw-medium py-1 text-decoration-none">About</a>
+        <a href="./analytics.html" class="text-body-secondary small fw-medium py-1 text-decoration-none">Analytics</a>
+        <a href="./services.html" class="text-body-secondary small fw-medium py-1 text-decoration-none">Services</a>
+        <a href="./contact.html" class="text-body-secondary small fw-medium py-1 text-decoration-none">Contact</a>
+        <a href="./submissions.html" class="text-body-secondary small fw-medium py-1 text-decoration-none">Submissions</a>
       </nav>
     </div>
 
