@@ -95,15 +95,15 @@ $(function () {
 
       <div class="d-flex flex-wrap gap-3 mb-4">
 
-        <a href="/contact.html" class="btn btn-outline-light px-4">
+        <a href="./contact.html" class="btn btn-outline-light px-4">
           Get in touch
         </a>
 
-        <a href="/tasks.html" class="btn btn-outline-light px-4">
+        <a href="./tasks.html" class="btn btn-outline-light px-4">
           View Tasks
         </a>
 
-        <a href="/about.html" class="btn btn-outline-light px-4">
+        <a href="./about.html" class="btn btn-outline-light px-4">
           About Us
         </a>
 
